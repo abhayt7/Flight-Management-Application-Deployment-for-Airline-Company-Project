@@ -1,0 +1,77 @@
+---
+- name: Install Jenkins on CentOS/RHEL
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Set hostname
+      command: hostnamectl set-hostname autoSrv
+
+    - name: dnf update
+      command: sudo yum update
+
+    - name: Add Jenkins repo
+      get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Import Jenkins repo key
+      rpm_key:
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+        state: present
+
+    - name: Upgrade all packages
+      command: sudo yum update
+
+    - name: Install Java 17 Amazon Corretto
+      dnf:
+        name: java-17-amazon-corretto
+        state: present
+
+    - name: Install Jenkins
+      dnf:
+        name: jenkins
+        state: present
+
+    - name: Enable Jenkins service
+      systemd:
+        name: jenkins
+        enabled: yes
+        state: started
+
+    - name: Check Jenkins service status
+      command: systemctl status jenkins
+      register: jenkins_status
+      ignore_errors: yes
+
+    - name: Print Jenkins service status
+      debug:
+        msg: "{{ jenkins_status.stdout_lines }}"
+
+    - name: Install Git
+      dnf:
+        name: git
+        state: present
+
+    - name: Download kubectl
+      shell: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add Jenkins user to Docker group
+      user:
+        name: jenkins
+        groups: docker
+        append: yes

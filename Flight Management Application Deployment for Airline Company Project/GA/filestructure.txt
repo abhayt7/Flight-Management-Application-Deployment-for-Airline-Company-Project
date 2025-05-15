@@ -1,0 +1,17 @@
+galactic-airlines/
+├── frontend/
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── add_flight.html
+│   ├── delete_flight.html
+│   ├── fetch_flights.html
+│   ├── style.css
+│   └── script.js
+├── backend/
+│   ├── Dockerfile
+│   ├── app.py
+│   └── requirements.txt
+├── database/
+│   ├── Dockerfile
+│   └── init.sql
+└── docker-compose.yml

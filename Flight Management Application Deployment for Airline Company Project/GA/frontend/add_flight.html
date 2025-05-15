@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Flight - Galactic Airlines</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Add Flight</h2>
+        <form id="addFlightForm">
+            <label>Flight Identifier:</label><input type="text" id="flightIdentifier" required><br>
+            <label>Departure Location:</label><input type="text" id="departureLocation" required><br>
+            <label>Destination Location:</label><input type="text" id="destinationLocation" required><br>
+            <label>Scheduled Departure:</label><input type="datetime-local" id="scheduledDeparture" required><br>
+            <label>Scheduled Arrival:</label><input type="datetime-local" id="scheduledArrival" required><br>
+            <label>Aircraft Model:</label>
+            <select id="aircraftModel" required>
+                <option>Boeing 737</option>
+                <option>Airbus A320</option>
+                <option>Boeing 777</option>
+                <option>Airbus A330</option>
+                <option>Boeing 787 Dreamliner</option>
+                <option>Airbus A350</option>
+                <option>Embraer E190</option>
+            </select><br>
+            <label>Total Seating Capacity:</label><input type="number" id="seatingCapacity" required><br>
+            <label>Crew Count:</label><input type="number" id="crewCount" required><br>
+            <button type="button" onclick="addFlight()">Add Flight</button>
+        </form>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

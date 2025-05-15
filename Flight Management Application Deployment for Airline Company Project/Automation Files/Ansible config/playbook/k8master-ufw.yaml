@@ -1,0 +1,63 @@
+---
+- name: Configure Kubernetes on Ubuntu Server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Open Control Plane ports
+      ufw:
+        rule: allow
+        port: '6443'
+        proto: tcp
+
+    - name: Open ETCD server client API ports
+      ufw:
+        rule: allow
+        port: 2379:2380
+        proto: tcp
+
+    - name: Open Kubelet API port
+      ufw:
+        rule: allow
+        port: '10250'
+        proto: tcp
+
+    - name: Open kube scheduler port
+      ufw:
+        rule: allow
+        port: '10259'
+        proto: tcp
+
+    - name: Open Kube controller manager port
+      ufw:
+        rule: allow
+        port: '10257'
+        proto: tcp
+
+    - name: Open Calico CNI port 179/tcp
+      ufw:
+        rule: allow
+        port: '179'
+        proto: tcp
+
+    - name: Open Calico CNI port 4789/udp
+      ufw:
+        rule: allow
+        port: '4789'
+        proto: udp
+
+    - name: Open Calico CNI port 4789/tcp
+      ufw:
+        rule: allow
+        port: '4789'
+        proto: tcp
+
+    - name: Open SSH port
+      ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Enable UFW firewall
+      ufw:
+        state: enabled
+

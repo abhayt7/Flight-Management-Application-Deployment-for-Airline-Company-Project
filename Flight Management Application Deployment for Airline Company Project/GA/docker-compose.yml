@@ -1,0 +1,28 @@
+version: '3'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend-service
+
+  backend-service:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+
+  database:
+    build: ./database
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: galactic_airlines
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

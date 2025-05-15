@@ -1,0 +1,53 @@
+---
+- name: Configure Kubernetes on Ubuntu Server
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Open Kubelet API port
+      ufw:
+        rule: allow
+        port: '10250'
+        proto: tcp
+
+    - name: Open proxy port 2379/tcp
+      ufw:
+        rule: allow
+        port: '2379'
+        proto: tcp
+
+
+    - name: Open Calico CNI port 179/tcp
+      ufw:
+        rule: allow
+        port: '179'
+        proto: tcp
+
+    - name: Open Calico CNI port 4789/udp
+      ufw:
+        rule: allow
+        port: '4789'
+        proto: udp
+
+    - name: Open Calico CNI port 4789/tcp
+      ufw:
+        rule: allow
+        port: '4789'
+        proto: tcp
+
+    - name: Open SSH port
+      ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Open nodeports
+      ufw:
+        rule: allow
+        port: 30000:32767
+        proto: tcp
+
+
+    - name: Enable UFW firewall
+      ufw:
+        state: enabled
